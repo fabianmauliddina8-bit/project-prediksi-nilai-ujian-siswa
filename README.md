@@ -9,37 +9,44 @@
 
 ## 2. Anggota Kelompok
 
-1. 
-2. [Nama Anggota 2]
+1. Zihni Ahmad Alrafi
+2. Carissa Anasytasya Saputri
 3. Selvi Mahagresi
-4. [Nama Anggota 4]
+4. Lovely Juwina Putri
+5. Fabian Mauliddina
+6. Muhammad Aria Raga
+7. Imran Fernando Nainggolan
+8. Adam Nur Saefulloh
+9. Ananda Samuel Jordy
+10. Adel Naysila Ali
+11. Estrela Amor
+12. Andi Adam Alfatih
+13. Aufa Zuhdi Syakir
 
 ---
 
 ## 3. Deskripsi Project
 
-Project ini bertujuan untuk membangun model *machine learning* yang dapat memprediksi nilai siswa berdasarkan data dan atribut akademis maupun demografis yang tersedia.
+Project ini bertujuan untuk membangun model machine learning yang dapat memprediksi nilai siswa berdasarkan data dan atribut yang tersedia.
 
 ---
 
 ## 4. Jenis Permasalahan
 
-Prediksi nilai siswa termasuk permasalahan **Supervised Learning** dengan pendekatan **Regresi** (karena target yang diprediksi berupa nilai numerik/kontinu).
+Prediksi nilai siswa termasuk permasalahan supervised learning dengan pendekatan regresi apabila target yang diprediksi berupa nilai numerik.
 
 ---
 
 ## 5. Dataset
 
-Dataset yang digunakan berisi informasi siswa (seperti kebiasaan belajar, demografi, kehadiran, dll.) yang digunakan sebagai dasar analisis, pra-pemrosesan data, serta pelatihan model prediksi.
+Dataset yang digunakan berisi informasi siswa yang akan digunakan sebagai dasar analisis dan proses prediksi.
 
 ---
 
 ## 6. Algoritma
 
-Algoritma yang digunakan dalam eksperimen ini antara lain:
-
-- [Isi nama algoritma 1, contoh: Linear Regression]
-- [Isi nama algoritma 2, contoh: Random Forest Regressor]
+Algoritma yang digunakan:
+Linear Regression  untuk memprediksi nilai siswa berdasarkan hubungan antara variabel, misalnya waktu belajar, kehadiran, dan nilai sebelumnya.
 
 ---
 
