@@ -52,12 +52,24 @@ Linear Regression  untuk memprediksi nilai siswa berdasarkan hubungan antara var
 
 ## 7. Ringkasan Hasil
 
-- **Model Terbaik:** [Isi dengan nama model terbaik, misal: Random Forest Regressor]
-- **Evaluasi Metrik:**
-  - **MAE (Mean Absolute Error):** [Nilai MAE]
-  - **MSE (Mean Squared Error):** [Nilai MSE]
-  - **$R^2$ Score:** [Nilai R2 Score]
-- **Kesimpulan Singkat:** [Tuliskan ringkasan singkat dari hasil eksperimen/prediksi]
+7. Ringkasan Hasil
+
+Dataset Student Performance Factors terdiri dari 6.607 data dengan 20 kolom. Data diproses dengan mengisi missing value (median untuk fitur numerik dan modus untuk fitur kategorikal) serta mengubah fitur kategorikal menjadi angka menggunakan One-Hot Encoding. Model Linear Regression kemudian dilatih untuk memprediksi Exam_Score.
+
+Hasil evaluasi pada data uji:
+
+| Metrik | Nilai |
+|---|---|
+| MAE | 0,4524 |
+| RMSE | 1,8044 |
+| R-squared (R²) | 0,7696 |
+
+Interpretasi:
+- MAE sebesar 0,45 berarti rata-rata prediksi meleset sekitar 0,45 poin dari nilai sebenarnya.
+- RMSE sebesar 1,80 lebih besar dari MAE karena terdapat beberapa siswa dengan nilai ekstrem yang sulit diprediksi.
+- R² sebesar 0,77 berarti model mampu menjelaskan sekitar 77% variasi nilai ujian siswa.
+
+Berdasarkan analisis korelasi, faktor yang paling berhubungan dengan nilai ujian adalah kehadiran (Attendance) dan jam belajar (Hours_Studied). Secara keseluruhan, Linear Regression bekerja dengan baik untuk memprediksi nilai ujian siswa pada dataset ini.
 
 ---
 
