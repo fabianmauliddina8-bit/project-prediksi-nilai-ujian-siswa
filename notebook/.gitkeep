@@ -23,3 +23,265 @@ from sklearn.metrics import (
 sns.set_theme(style="whitegrid")
 
 print("Semua library berhasil di-import!")
+
+
+# SECTION 2: UPLOAD & READ DATASET (AUFA, JIMY, SELVI)
+uploaded = files.upload()
+
+file_name = next(iter(uploaded))
+
+if file_name.lower().endswith(".csv"):
+    df = pd.read_csv(file_name)
+
+elif file_name.lower().endswith((".xlsx", ".xls")):
+    df = pd.read_excel(file_name)
+
+else:
+    raise ValueError("Format file harus CSV atau Excel!")
+
+# Membersihkan spasi pada nama kolom
+df.columns = df.columns.astype(str).str.strip()
+
+print("Dataset berhasil dibaca!")
+print("Nama File:", file_name)
+print("Ukuran Dataset:", df.shape)
+
+display(df.head())
+
+
+# SECTION 3: DATA UNDERSTANDING & PREPROCESSING (AUFA, JIMY, SELVI)
+
+# Menentukan target prediksi
+target = "Exam_Score"
+
+if target not in df.columns:
+    raise ValueError("Kolom Exam_Score tidak ditemukan!")
+
+# Melihat informasi dataset
+print("INFORMASI DATASET")
+df.info()
+
+# Melihat statistik deskriptif
+print("\nSTATISTIK DESKRIPTIF")
+display(df.describe(include="all").T)
+
+# Memeriksa missing value
+print("\nMISSING VALUE")
+display(df.isnull().sum())
+
+# Memeriksa data duplikat
+print("\nJUMLAH DATA DUPLIKAT")
+print(df.duplicated().sum())
+
+# Menghapus data duplikat yang identik
+df = df.drop_duplicates().copy()
+
+# Memastikan target berupa angka
+df[target] = pd.to_numeric(
+    df[target],
+    errors="coerce"
+)
+
+# Menghapus baris yang tidak memiliki target
+df = df.dropna(subset=[target])
+
+print("\nUKURAN DATASET SETELAH PREPROCESSING")
+print(df.shape)
+
+print("\nMISSING VALUE SETELAH PEMERIKSAAN")
+display(df.isnull().sum())
+
+
+# SECTION 4A: STATISTIK DESKRIPTIF (RAGA, AMOR, CARISSA)
+
+print("STATISTIK NILAI UJIAN")
+
+display(df["Exam_Score"].describe())
+
+
+# SECTION 4B: HISTOGRAM
+plt.figure(figsize=(8, 5))
+
+sns.histplot(
+    data=df,
+    x="Exam_Score",
+    kde=True
+)
+
+plt.title("Distribution of Exam Scores")
+plt.xlabel("Exam Score")
+plt.ylabel("Frequency")
+
+plt.show()
+
+
+# SECTION 4C: SCATTER PLOT
+if "Hours_Studied" in df.columns:
+
+    plt.figure(figsize=(8, 5))
+
+    sns.scatterplot(
+        data=df,
+        x="Hours_Studied",
+        y="Exam_Score",
+        alpha=0.6
+    )
+
+    plt.title("Hours Studied vs Exam Score")
+    plt.xlabel("Hours Studied")
+    plt.ylabel("Exam Score")
+
+    plt.show()
+
+else:
+    print("Kolom Hours_Studied tidak ditemukan.")
+
+
+# SECTION 5: MODEL DEVELOPMENT (ZAKI, SAMUEL, ANDI ADELIA)
+
+# Memisahkan fitur dan target
+X = df.drop(columns=[target])
+y = df[target]
+
+# Membagi data training dan testing
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42
+)
+
+print("Data Training:", X_train.shape)
+print("Data Testing:", X_test.shape)
+
+# Memisahkan fitur numerik dan kategorikal
+numeric_features = X_train.select_dtypes(
+    include="number"
+).columns.tolist()
+
+categorical_features = X_train.select_dtypes(
+    exclude="number"
+).columns.tolist()
+
+# Preprocessing data numerik
+numeric_transformer = Pipeline(steps=[
+    ("imputer", SimpleImputer(strategy="median"))
+])
+
+# Preprocessing data kategorikal
+categorical_transformer = Pipeline(steps=[
+    ("imputer", SimpleImputer(strategy="most_frequent")),
+    ("encoder", OneHotEncoder(handle_unknown="ignore"))
+])
+
+# Menggabungkan preprocessing
+preprocessor = ColumnTransformer(
+    transformers=[
+        ("num", numeric_transformer, numeric_features),
+        ("cat", categorical_transformer, categorical_features)
+    ]
+)
+
+# Membuat model Linear Regression
+model = Pipeline(steps=[
+    ("preprocessing", preprocessor),
+    ("regression", LinearRegression())
+])
+
+# Melatih model
+model.fit(X_train, y_train)
+
+# Melakukan prediksi
+y_pred = model.predict(X_test)
+
+print("\nModel Linear Regression berhasil dilatih!")
+
+
+# SECTION 6A: MODEL EVALUATION (FER, LOVELY)
+
+# Menghitung MAE
+mae = mean_absolute_error(y_test, y_pred)
+
+# Menghitung RMSE
+rmse = np.sqrt(
+    mean_squared_error(y_test, y_pred)
+)
+
+# Menghitung R-Squared
+r2 = r2_score(y_test, y_pred)
+
+print("HASIL EVALUASI MODEL")
+print("====================")
+
+print("MAE :", round(mae, 4))
+print("RMSE:", round(rmse, 4))
+print("R2  :", round(r2, 4))
+
+# SECTION 6B: ACTUAL VS PREDICTED
+plt.figure(figsize=(8, 5))
+
+plt.scatter(
+    y_test,
+    y_pred,
+    alpha=0.6
+)
+
+# Garis prediksi sempurna
+min_value = min(y_test.min(), y_pred.min())
+max_value = max(y_test.max(), y_pred.max())
+
+plt.plot(
+    [min_value, max_value],
+    [min_value, max_value],
+    linestyle="--",
+    color="red"
+)
+
+plt.title("Actual vs Predicted Exam Score")
+plt.xlabel("Actual Exam Score")
+plt.ylabel("Predicted Exam Score")
+
+plt.show()
+
+
+# SECTION 7: CONCLUSION
+
+
+print("KESIMPULAN PROJECT")
+print("==================")
+
+print("Dataset: Student Performance Factors")
+print("Algoritma: Linear Regression")
+print("Target: Exam_Score")
+
+print("\nHASIL EVALUASI:")
+print("MAE :", round(mae, 4))
+print("RMSE:", round(rmse, 4))
+print("R2  :", round(r2, 4))
+
+print("\nINTERPRETASI:")
+
+print(
+    f"Rata-rata kesalahan prediksi model "
+    f"adalah {mae:.2f} poin."
+)
+
+print(
+    f"Nilai RMSE model adalah {rmse:.2f} poin."
+)
+
+if r2 >= 0:
+    print(
+        f"Model menjelaskan sekitar {r2 * 100:.2f}% "
+        "variasi nilai ujian pada data testing."
+    )
+else:
+    print(
+        "Nilai R2 negatif, artinya performa model "
+        "lebih buruk dibandingkan prediksi menggunakan "
+        "rata-rata nilai target data testing."
+    )
+
+print("\nProses Machine Learning selesai!")
+
+
