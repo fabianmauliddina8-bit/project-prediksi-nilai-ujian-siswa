@@ -52,8 +52,6 @@ Linear Regression  untuk memprediksi nilai siswa berdasarkan hubungan antara var
 
 ## 7. Ringkasan Hasil
 
-7. Ringkasan Hasil
-
 Dataset Student Performance Factors terdiri dari 6.607 data dengan 20 kolom. Data diproses dengan mengisi missing value (median untuk fitur numerik dan modus untuk fitur kategorikal) serta mengubah fitur kategorikal menjadi angka menggunakan One-Hot Encoding. Model Linear Regression kemudian dilatih untuk memprediksi Exam_Score.
 
 Hasil evaluasi pada data uji:
